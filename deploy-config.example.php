@@ -147,3 +147,11 @@ define('COMPOSER_HOME', false);
  * @var string Email address
  */
 define('EMAIL_ON_ERROR', false);
+
+/**
+ * OPTIONAL
+ * Deploy git on successful merge and close of a pull request
+ *
+ * @var string Email address
+ */
+define('DEPLOY_ON_PR_MERGE', false);
