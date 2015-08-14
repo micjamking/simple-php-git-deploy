@@ -123,27 +123,27 @@ foreach ($requiredBinaries as $command) {
 Environment OK.
 
 Deploying <?php echo REMOTE_REPOSITORY; ?> <?php echo BRANCH."\n"; ?>
-to        <?php echo TARGET_DIR; ?> ...
 
-// ==================================================[ Deployment ]===
 <?php
+// ==================================================[ Deployment ]===
 // The commands
 $commands = array(
-	'git pull',
-	'git submodule sync',
-	'git submodule update',
+        'git pull',
+        'git submodule sync',
+        'git submodule update',
 );
 
 // =======================================[ Run the command steps ]===
 $output = '';
 foreach ($commands as $command) {
-	// Run it
-	$tmp = shell_exec($command);
-	// Output the result
-	$output .= "<span style=\"color: #6BE234;\">\$</span> <span style=\"color: #729FCF;\">{$command}\n</span>";
-	$output .= htmlentities(trim($tmp)) . "\n";
+        // Run it
+        $tmp = shell_exec($command);
+        // Output the result
+        $output .= "<span style=\"color: #6BE234;\">\$</span> <span style=\"color: #729FCF;\">{$command}\n</span>";
+        $output .= htmlentities(trim($tmp)) . "\n";
 
 }
+echo $output;
 ?>
 
 Done.
