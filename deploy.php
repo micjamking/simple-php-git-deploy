@@ -4,7 +4,7 @@
  *
  * Automatically deploy the code using PHP and Git.
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @link    https://github.com/markomarkovic/simple-php-git-deploy/
  */
 
@@ -155,6 +155,15 @@ if (!defined('COMPOSER_HOME')) define('COMPOSER_HOME', false);
  */
 if (!defined('EMAIL_ON_ERROR')) define('EMAIL_ON_ERROR', false);
 
+/**
+ * OPTIONAL
+ * Deploy git on successful merge and close of a pull request
+ *
+ * @var string Email address
+ */
+if (!defined('DEPLOY_ON_PR_MERGE')) define('DEPLOY_ON_PR_MERGE', false);
+
+
 // ===========================================[ Configuration end ]===
 
 // If there's authorization error, set the correct HTTP header.
@@ -186,14 +195,16 @@ if (SECRET_ACCESS_TOKEN === 'BetterChangeMeNowOrSufferTheConsequences') {
 	die("<h2>You're suffering the consequences!<br>Change the SECRET_ACCESS_TOKEN from it's default value!</h2>");
 }
 
-$postBody = file_get_contents('php://input');
-$payload  = json_decode($postBody);
-
-if ( $payload->action !== 'closed' && $payload->pull_request->merged !== true) {
-
-  echo $payload->action;
-  echo $payload->pull_request->merged;
-  die("<h2>The pull request was not merged and cannot be deployed.</h2>");
+if (defined('DEPLOY_ON_PR_MERGE') && DEPLOY_ON_PR_MERGE !== false) {
+	$postBody = file_get_contents('php://input');
+	$payload  = json_decode($postBody);
+	
+	if ( $payload->action !== 'closed' && $payload->pull_request->merged !== true) {
+	
+	  echo $payload->action;
+	  echo $payload->pull_request->merged;
+	  die("<h2>The pull request was not merged and cannot be deployed.</h2>");
+	}
 }
 ?>
 <pre>
