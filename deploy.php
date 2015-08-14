@@ -185,6 +185,16 @@ if (!isset($_GET['sat']) || $_GET['sat'] !== SECRET_ACCESS_TOKEN) {
 if (SECRET_ACCESS_TOKEN === 'BetterChangeMeNowOrSufferTheConsequences') {
 	die("<h2>You're suffering the consequences!<br>Change the SECRET_ACCESS_TOKEN from it's default value!</h2>");
 }
+
+$postBody = file_get_contents('php://input');
+$payload  = json_decode($postBody);
+
+if ( $payload->action !== 'closed' && $payload->pull_request->merged !== true) {
+
+  echo $payload->action;
+  echo $payload->pull_request->merged;
+  die("<h2>The pull request was not merged and cannot be deployed.</h2>");
+}
 ?>
 <pre>
 
